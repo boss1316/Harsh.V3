@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe's Chicken Shack</title>
+    <style>
+        body { font-family: Arial; background: #1e1e1e; color: #fff; padding: 20px; }
+        .menu-item { margin-bottom: 15px; }
+        button { padding: 10px; background: orange; border: none; color: white; }
+        input, textarea { width: 100%; padding: 10px; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>Joe's Chicken Shack Menu</h1>
+    <div id="menu"></div>
+    <h2>Your Details</h2>
+    <input type="text" id="customerName" placeholder="Your Name">
+    <input type="text" id="customerNumber" placeholder="Your Number">
+    <textarea id="customerAddress" placeholder="Your Address"></textarea>
+    <button onclick="sendOrder()">Place Order on WhatsApp</button>
+
+    <script>
+        const menu = [
+            { name: "Grilled Chicken", price: "15" },
+            { name: "Fried Chicken", price: "12" }
+        ];
+
+        const menuDiv = document.getElementById("menu");
+        menu.forEach((item, index) => {
+            menuDiv.innerHTML += `<div class="menu-item">
+                <strong>${item.name}</strong> - AED ${item.price}
+                <button onclick="addToCart('${item.name}', '${item.price}')">Add to Cart</button>
+            </div>`;
+        });
+
+        let cart = [];
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            alert(`${name} added to cart.`);
+        }
+
+        function sendOrder() {
+            const name = document.getElementById("customerName").value;
+            const number = document.getElementById("customerNumber").value;
+            const address = document.getElementById("customerAddress").value;
+            const orderItems = cart.map(item => `${item.name} - AED ${item.price}`).join(", ");
+            const message = `Order from ${name}%0aNumber: ${number}%0aAddress: ${address}%0aItems: ${orderItems}`;
+            const whatsappURL = `https://wa.me/971501234567?text=${message}`; // Dummy number
+            window.open(whatsappURL, '_blank');
+        }
+    </script>
+</body>
+</html>
